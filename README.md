@@ -1,5 +1,9 @@
 ### fsm.js
 
+A finite state machine written in CoffeeScript
+
+#### Example
+
   fsm = new FSM( states: ["asleep", "awake", "standing", "sitting"], initialState: "asleep" )
 
   # We can transition from one or many states, but we can only transition to one state.
