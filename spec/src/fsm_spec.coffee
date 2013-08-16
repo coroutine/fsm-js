@@ -44,6 +44,7 @@ describe 'FSM', ->
     it 'should not raise an error with valid input', ->
       expect(-> fsm.event('wap', { transition: { from: 'asleep', to: 'awake' } })).not.toThrow()
       expect(-> fsm.event('zap', { transition: { from: ['standing', 'sitting'], to: 'asleep' } })).not.toThrow()
+      expect(-> fsm.event('lob', { transition: { from: '*', to: 'asleep' } })).not.toThrow()
       
     it 'should raise an error if the event has already been defined', ->
       defEvent = -> fsm.event 'party', transition: { from: 'asleep', to: 'standing' }

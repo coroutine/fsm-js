@@ -103,10 +103,18 @@ describe('FSM', function() {
           }
         });
       }).not.toThrow();
-      return expect(function() {
+      expect(function() {
         return fsm.event('zap', {
           transition: {
             from: ['standing', 'sitting'],
+            to: 'asleep'
+          }
+        });
+      }).not.toThrow();
+      return expect(function() {
+        return fsm.event('lob', {
+          transition: {
+            from: '*',
             to: 'asleep'
           }
         });

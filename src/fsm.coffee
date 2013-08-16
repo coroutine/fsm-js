@@ -30,7 +30,7 @@ class FSM
     throw FSM.EVENT_EXISTS_ERROR  if _(@events).contains(name)
     
     transition  = options['transition']
-    from        = _([transition['from']]).flatten()
+    from        = if transition['from'] == FSM.WILDCARD then @states else _([transition['from']]).flatten()
     to          = transition['to']
     
     this[name] = =>
@@ -69,19 +69,19 @@ class FSM
       
   eventOptionsAreValid: (options) ->
     transition      = options?['transition']
-    from            = _(_([transition?['from']]).flatten()).compact()
-    fromHasElements = !!from.length
-    fromInStates    = _(@states).intersection(from).length == from.length
+    from            = transition?['from']
+    fromIsWildcard  = from == FSM.WILDCARD
+    fromStates      = _(_([transition?['from']]).flatten()).compact()
+    fromHasElements = !!fromStates.length
+    fromInStates    = _(@states).intersection(fromStates).length == fromStates.length
     to              = transition?['to']
     toIsString      = _(to).isString()
     toInStates      = _(@states).contains(to)
-    
-    
-    !!(options          && 
-      transition        && 
-      fromHasElements   && 
-      fromInStates      &&
-      to                &&
-      toIsString        && 
+      
+    !!(options                                              && 
+      transition                                            && 
+      (fromIsWildcard || (fromHasElements && fromInStates)) &&
+      to                                                    &&
+      toIsString                                            && 
       toInStates)
     
