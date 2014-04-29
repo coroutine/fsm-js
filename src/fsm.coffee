@@ -9,17 +9,19 @@ class FSM
   @EVENT_EXISTS_ERROR:              "The specified event has already been defined."
   @EVENT_DOES_NOT_EXIST_ERROR:      "Cannot register a callback on a nonexistent event"
   
-  events: []
-  
-  callbacks:
-    before: {}
-    after:  {}
+  events:     null
+  callbacks:  null
   
   constructor: (options={}) ->
     throw FSM.INITIAL_STATE_ERROR unless _(options['states']).contains(options['initialState'])
     
     @currentState = options['initialState']
     @states       = options['states']
+    @events       = []
+    @callbacks    = {
+      before: {}
+      after:  {}
+    }
     
   state: -> @currentState
     
